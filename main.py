@@ -21,9 +21,11 @@ class chessboard(object):
         self.board = chessboard
         
     def restart(self):
+        # 重置棋局
         self.__init__()
         
     def display(self, mode):
+        # 显示棋局
         chessboards = [['  ' for i in range(10)] for j in range(12)]
         i = 1
         while i<11 :
@@ -38,21 +40,21 @@ class chessboard(object):
                 for j in range(9):
                     if self.board[i][j]:
                         if self.board[i][j].color=='red':
-                            chessboards[10-i][9-j] ='\033[0;31;40m'+self.board[i][j].name+'\033[0m'
+                            chessboards[10-i][9-j] ='\033[1;31;40m'+self.board[i][j].name+'\033[0m'
                         else:
-                            chessboards[10-i][9-j] ='\033[0;32;40m'+self.board[i][j].name+'\033[0m'
+                            chessboards[10-i][9-j] ='\033[1;32;40m'+self.board[i][j].name+'\033[0m'
                     else:
-                        chessboards[10-i][9-j] = '  '
+                        chessboards[10-i][9-j] = '十'
         elif mode == 'green':
             for i in range(10):
                 for j in range(9):
                     if self.board[i][j]:
                         if self.board[i][j].color=='red':
-                            chessboards[i+1][j+1] ='\033[0;31;40m'+self.board[i][j].name+'\033[0m'
+                            chessboards[i+1][j+1] ='\033[1;31;40m'+self.board[i][j].name+'\033[0m'
                         else:
-                            chessboards[i+1][j+1] ='\033[0;32;40m'+self.board[i][j].name+'\033[0m'
+                            chessboards[i+1][j+1] ='\033[1;32;40m'+self.board[i][j].name+'\033[0m'
                     else:
-                        chessboards[i+1][j+1] = '  '
+                        chessboards[i+1][j+1] = '十'
         else:
             for i in range(10):
                 for j in range(9):
@@ -65,6 +67,7 @@ class chessboard(object):
         return chessstr
     
     def check_end(self):
+        # 检查是否结束 暂置
         num_boss = 0
         for i in range(10):
             for j in range(9):
@@ -75,7 +78,8 @@ class chessboard(object):
         else:
             return True
             
-    def __border_check(self, area, pos, color=None):          
+    def __border_check(self, area, pos, color=None): 
+        # 检查是否出界         
         if area==2:
             if color == None:
                 if ((pos[0]<=2 and pos[0]>=0) or (pos[0]<=9 and pos[0]>=7)) and (pos[1]<=5 and pos[1]>=3):
@@ -185,6 +189,7 @@ class chessboard(object):
         return False
                 
     def move(self, start, end):
+        # 移动棋子
         if self.board[end[0]] [end[1]]!=None and self.board[end[0]] [end[1]].name == '帅':
             self.winner = self.board[start[0]] [start[1]].color
         self.board[end[0]] [end[1]] = self.board[start[0]] [start[1]]
@@ -192,6 +197,7 @@ class chessboard(object):
         return True
         
     def str2pos(self, command, color):
+        # 口令中提取start->end
         length = len(command)
         if length==4:
             if command[0]=='前'or command[0]=='后'or command[0]=='中'or command[0]=='1'or command[0]=='2'or command[0]=='3'or command[0]=='4'or command[0]=='5'or command[0]=='一'or command[0]=='二'or command[0]=='三'or command[0]=='四'or command[0]=='五':
@@ -215,9 +221,14 @@ class chessboard(object):
         else:
             return False
         #elif command=='悔棋':
-        local = int(local.replace('一','1').replace('二','2').replace('三','3').replace('四','4').replace('五','5').replace('六','6').replace('七','7').replace('八','8').replace('九','9').replace('十','10'))
-        vector = int(vector.replace('一','1').replace('二','2').replace('三','3').replace('四','4').replace('五','5').replace('六','6').replace('七','7').replace('八','8').replace('九','9').replace('十','10'))
-        chessname = chessname.replace('车','車').replace('馬','马').replace('仕','士').replace('砲','炮').replace('像','象').replace('卒','兵').replace('相','象').replace('将','帅')
+        try:
+            local = int(local.replace('一','1').replace('二','2').replace('三','3').replace('四','4').replace('五','5').replace('六','6').replace('七','7').replace('八','8').replace('九','9').replace('十','10'))
+            vector = int(vector.replace('一','1').replace('二','2').replace('三','3').replace('四','4').replace('五','5').replace('六','6').replace('七','7').replace('八','8').replace('九','9').replace('十','10'))
+            chessname = chessname.replace('车','車').replace('馬','马').replace('仕','士').replace('砲','炮').replace('像','象').replace('卒','兵').replace('相','象').replace('将','帅')
+        except :
+            return False
+        if chessname not in '車马象士帅兵炮':
+            return False
         chess = []
         endpos = []
         if color == 'red':
