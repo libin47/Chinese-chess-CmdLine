@@ -222,7 +222,8 @@ class chessboard(object):
             return False
         #elif command=='悔棋':
         try:
-            local = int(local.replace('一','1').replace('二','2').replace('三','3').replace('四','4').replace('五','5').replace('六','6').replace('七','7').replace('八','8').replace('九','9').replace('十','10'))
+            if local:
+                local = int(local.replace('一','1').replace('二','2').replace('三','3').replace('四','4').replace('五','5').replace('六','6').replace('七','7').replace('八','8').replace('九','9').replace('十','10'))
             vector = int(vector.replace('一','1').replace('二','2').replace('三','3').replace('四','4').replace('五','5').replace('六','6').replace('七','7').replace('八','8').replace('九','9').replace('十','10'))
             chessname = chessname.replace('车','車').replace('馬','马').replace('仕','士').replace('砲','炮').replace('像','象').replace('卒','兵').replace('相','象').replace('将','帅')
         except :
@@ -271,8 +272,8 @@ class chessboard(object):
             else:
                 for i in range(10):
                     for j in range(9):
-                        if self.board[i][j].name == chessname:
-                            chess.append(i, j)
+                        if self.board[i][j] and self.board[i][j].name == chessname and self.board[i][j].color==color:
+                            chess.append([i, j])
                 if len(chess)==0:
                     return False
                 elif len(chess)==1:
@@ -382,8 +383,8 @@ class chessboard(object):
             else:
                 for i in range(10):
                     for j in range(9):
-                        if self.board[i][j].name == chessname:
-                            chess.append(i, j)
+                        if self.board[i][j] and self.board[i][j].name == chessname and self.board[i][j].color==color:
+                            chess.append([i, j])
                 if len(chess)==0:
                     return False
                 elif len(chess)==1:
