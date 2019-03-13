@@ -68,7 +68,7 @@ if __name__ == '__main__':
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # 获取本地主机名
     # host = socket.gethostname()
-    host='192.168.99.4'
+    host='193.112.8.137'
     port = 9995
     # 绑定端口号
     s.bind((host, port))
